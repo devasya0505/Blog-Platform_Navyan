@@ -304,7 +304,17 @@
   }
 
   .auth-links {
-    display: none;
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .auth-links .nav-link {
+    font-size: 0.8rem;
+  }
+  
+  .auth-links .nav-btn {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
   }
 
   .write-btn span {
