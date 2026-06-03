@@ -1,0 +1,29 @@
+/* ============================================
+   CREATE / EDIT POST PAGE STYLES
+   ============================================ */
+
+.create-post-page,
+.edit-post-page {
+  min-height: calc(100vh - 64px);
+  padding: var(--space-2xl) var(--space-xl);
+}
+
+.create-post-container,
+.edit-post-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: var(--space-2xl);
+}
+
+@media (max-width: 768px) {
+  .create-post-page,
+  .edit-post-page {
+    padding: var(--space-xl) var(--space-md);
+  }
+}
