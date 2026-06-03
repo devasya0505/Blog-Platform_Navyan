@@ -1,6 +1,7 @@
 # BlogHub — Premium Blogging Platform (MERN Stack)
 
 A modern, responsive, and aesthetically stunning blogging platform inspired by Medium. Built with React (Vite), Node.js, Express, and MongoDB.
+## Live Demo: https://blog-platform-navyan.vercel.app/
 
 ## Features
 
