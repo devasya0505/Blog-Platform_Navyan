@@ -30,10 +30,20 @@ const getPosts = async (req, res) => {
       .skip(skip)
       .limit(parseInt(limit));
 
+    const postsWithComments = await Promise.all(
+      posts.map(async (post) => {
+        const commentCount = await Comment.countDocuments({ post: post._id });
+        return {
+          ...post.toObject(),
+          commentCount
+        };
+      })
+    );
+
     const total = await Post.countDocuments(filter);
 
     res.json({
-      posts,
+      posts: postsWithComments,
       totalPages: Math.ceil(total / parseInt(limit)),
       currentPage: parseInt(page),
       totalPosts: total
@@ -202,7 +212,17 @@ const getMyPosts = async (req, res) => {
       .populate('author', 'name bio')
       .sort({ createdAt: -1 });
 
-    res.json(posts);
+    const postsWithComments = await Promise.all(
+      posts.map(async (post) => {
+        const commentCount = await Comment.countDocuments({ post: post._id });
+        return {
+          ...post.toObject(),
+          commentCount
+        };
+      })
+    );
+
+    res.json(postsWithComments);
   } catch (error) {
     console.error('GetMyPosts error:', error.message);
     res.status(500).json({ message: 'Server error fetching your posts' });
@@ -218,7 +238,17 @@ const getPostsByUser = async (req, res) => {
       .populate('author', 'name bio')
       .sort({ createdAt: -1 });
 
-    res.json(posts);
+    const postsWithComments = await Promise.all(
+      posts.map(async (post) => {
+        const commentCount = await Comment.countDocuments({ post: post._id });
+        return {
+          ...post.toObject(),
+          commentCount
+        };
+      })
+    );
+
+    res.json(postsWithComments);
   } catch (error) {
     console.error('GetPostsByUser error:', error.message);
     res.status(500).json({ message: 'Server error fetching user posts' });
