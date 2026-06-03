@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
 import { FiSun, FiMoon, FiEdit, FiUser, FiLogOut, FiMenu, FiX, FiSearch } from 'react-icons/fi';
@@ -9,9 +9,12 @@ const Navbar = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
+  const location = useLocation();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
 
   const handleLogout = () => {
     logout();
@@ -38,16 +41,18 @@ const Navbar = () => {
         </Link>
 
         {/* Search bar — desktop */}
-        <form className="navbar-search desktop-only" onSubmit={handleSearch}>
-          <FiSearch className="search-icon" />
-          <input
-            type="text"
-            placeholder="Search posts..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            id="navbar-search"
-          />
-        </form>
+        {!isAuthPage && (
+          <form className="navbar-search desktop-only" onSubmit={handleSearch}>
+            <FiSearch className="search-icon" />
+            <input
+              type="text"
+              placeholder="Search posts..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              id="navbar-search"
+            />
+          </form>
+        )}
 
         {/* Right section */}
         <div className="navbar-right">
@@ -105,18 +110,20 @@ const Navbar = () => {
           )}
 
           {/* Mobile menu toggle */}
-          <button
-            className="mobile-menu-btn"
-            onClick={() => setShowMobileMenu(!showMobileMenu)}
-            id="mobile-menu-btn"
-          >
-            {showMobileMenu ? <FiX /> : <FiMenu />}
-          </button>
+          {!isAuthPage && (
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setShowMobileMenu(!showMobileMenu)}
+              id="mobile-menu-btn"
+            >
+              {showMobileMenu ? <FiX /> : <FiMenu />}
+            </button>
+          )}
         </div>
       </div>
 
       {/* Mobile menu */}
-      {showMobileMenu && (
+      {showMobileMenu && !isAuthPage && (
         <div className="mobile-menu animate-fade-in">
           <form className="navbar-search mobile-search" onSubmit={handleSearch}>
             <FiSearch className="search-icon" />
