@@ -12,12 +12,14 @@ const {
 } = require('../controllers/postController');
 const { protect } = require('../middleware/authMiddleware');
 
-// Public routes
-router.get('/', getPosts);
+// User routes (specifically /user/me must come before /user/:userId to avoid conflicts)
+router.get('/user/me', protect, getMyPosts);
 router.get('/user/:userId', getPostsByUser);
 
-// Private routes (must come before /:id to avoid conflicts)
-router.get('/user/me', protect, getMyPosts);
+// Public routes
+router.get('/', getPosts);
+
+// Private routes
 router.post('/', protect, createPost);
 router.put('/:id/like', protect, likePost);
 
